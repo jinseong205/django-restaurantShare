@@ -12,3 +12,6 @@ def restaurantCreate(request):
 
 def categoryCreate(request):
     return render(request,"shareRes/categoryCreate.html")
+
+def Create_category(request):
+    return HttpResponse("category 기능 구현")
