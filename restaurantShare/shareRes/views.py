@@ -1,8 +1,13 @@
+from unicodedata import category
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from .models import *
+from django.urls import reverse
 
 def index(request):
-    return render(request, 'shareRes/index.html')
+    categories = Category.objects.all()
+    content = {'categories' : categories}
+    return render(request, 'shareRes/index.html',content)
 
 def restaurantDetail(request):
     return render(request,"shareRes/restaurantDetail.html")
@@ -11,7 +16,14 @@ def restaurantCreate(request):
     return render(request,"shareRes/restaurantCreate.html")
 
 def categoryCreate(request):
-    return render(request,"shareRes/categoryCreate.html")
+    categories = Category.objects.all()
+    content = {'categories':categories}
+
+    return render(request,"shareRes/categoryCreate.html",content)
 
 def Create_category(request):
-    return HttpResponse("category 기능 구현")
+    category_name = request.POST['categoryName']
+    new_category = Category(category_name = category_name)
+    new_category.save()
+
+    return HttpResponseRedirect(reverse('index'))
